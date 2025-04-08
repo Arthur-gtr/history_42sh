@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "history.h"
 #include "ast.h"
 #include "common.h"
 #include "debug.h"
@@ -55,13 +56,15 @@ int shell_loop(env_t *env, int is_a_tty, history_t *history)
     while (true) {
         if (is_a_tty)
             WRITE_CONST(STDOUT_FILENO, SHELL_PROMPT);
-        if (getline(&buffer, &buffer_sz, stdin) == -1)
+        if (getline(&buffer, &buffer_sz, stdin) == -1)//passer la ligne 59 a 63 dans une fonction
             break;
         buffer_len = u_strlen(buffer);
+        buffer = parse_history(buffer, &buffer_len);
         if (buffer_len < 2 || !u_str_is_alnum(buffer)) {
             check_basic_error(buffer);
             continue;
         }
+        /*SAVE COMMAND pour evité le cas !4 !3*/
         buffer[buffer_len - 1] = '\0';
         U_DEBUG("Buffer [%lu] [%s]\n", buffer_len, buffer);
         visitor(buffer, env, history);
@@ -73,6 +76,7 @@ int shell(char **env_ptr)
 {
     env_t env = parse_env(env_ptr);
     history_t history = { .cmd_history = NULL, 0, .last_chdir = NULL };
+    /*INITIALISATION DE LA STRUCT HIS_COMMAND_T EN TABLEAU*/
     int shell_result;
 
     if (!env.env)

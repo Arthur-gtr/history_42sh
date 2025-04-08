@@ -10,6 +10,7 @@
     #include "ast.h"
     #include "env.h"
     #include "shell.h"
+    #include "history.h"
 
     #define DEFAULT_ARGS_CAP 1
 
@@ -43,6 +44,7 @@ typedef struct {
     int pout_fd;
     int in_fd;
     int out_fd;
+    his_command_t *cmd_history;
 } ef_t;
 
 __attribute__((nonnull))
