@@ -42,7 +42,6 @@ int visit_cmd(ef_t *ef)
         || !handle_heredoc(ef, ef->act_node, i, ef->act_node->vector.sz))
             return -1;
     }
-    printf("Buffer; %s, %d\n", ef->buffer, a++);
     result = execute(ef);
     if (ef->rout_fd)
         close(ef->rout_fd);
@@ -63,7 +62,6 @@ int visit_pipe(ef_t *ef, size_t i, ast_t *node)
     ef->act_node = node->list.nodes[i];
     if (!ef->act_node)
         return -1;
-    printf("VISIT PIPE ; %s\n", ef->buffer);
     result = visit_cmd(ef);
     if (result == -1)
         return RETURN_FAILURE;
@@ -113,7 +111,6 @@ int visit_list(ef_t *ef, ast_t *node)
         ef->pin_fd = STDIN_FILENO;
         ef->pout_fd = STDOUT_FILENO;
         if (node->list.nodes[i]->type == N_CMD){//Je suppose que la derniere node est une n_cmd
-            printf("VISIT LIST ; %s\n", ef->buffer);
             result = visit_cmd(ef);
         }
     }
@@ -133,7 +130,6 @@ int visitor_launcher(ef_t *ef)
         result = visit_list(ef, ef->ctx->ast);
     if (ef->ctx->ast->type == N_CMD) {//?? COMMAND SIMPLE
         ef->act_node = ef->ctx->ast;
-        printf("passe de visitor launcher a visit_cmd\n");
         result = visit_cmd(ef);
     }
     return result;

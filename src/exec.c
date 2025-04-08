@@ -62,9 +62,7 @@ char **parse_args(ef_t *ef, ast_t *node, env_t *env)
 
     if (!args)
         return NULL;
-    printf("NODE LEAK 1 ; %s\n", node->tok.str);
     node->tok.str[node->tok.sz] = '\0';//OK DONC tok.sz permet de mettre l \0 au niveau du token
-    printf("NODE LEAK 2 ; %s ,size %d\n", node->tok.str, node->tok.sz);//Ou est calculé tok.sz
     args[0] = node->tok.str;
     for (size_t i = 0; i < node->vector.sz; i++) {
         if (ef->skip_sz > 0 && i >= ef->skip_i && i < ef->skip_i + ef->skip_sz)
@@ -133,7 +131,6 @@ int launch_bin(char *full_bin_path, char **args, ef_t *ef)
 
     if (pid == 0) {
         set_fd(ef);
-        printf("%s\n", full_bin_path);
         if (execve(full_bin_path, args, ef->env->env) < 0) {
             status = command_error(full_bin_path, args, errno);
             free_env(ef->env);
@@ -197,8 +194,6 @@ int execute(ef_t *ef)
     args = parse_args(ef, ef->act_node, ef->env);//Parse arg
     if (!args)
         return RETURN_FAILURE;
-    for (int i = 0; args[i] != NULL; i++)
-        fprintf(stderr, "CACARRAY; %s \n", args[i]);
     if (builtins_launcher(ef, args))
         return RETURN_SUCCESS;
     full_bin_path = parse_full_bin_path(ef->env, args[0]);
