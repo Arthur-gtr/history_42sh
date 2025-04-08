@@ -93,7 +93,7 @@ char *parse_history(char *line, size_t *buffer_len)//Faire passer une structure 
         if (line == NULL)
             return NULL;
         *buffer_len = u_strlen(line) + 1;
-        printf("FIND ! in line\n-------------\n");
+        printf("FIND ! |%s| in line\n-------------\n", line);
         return line;
     }
     printf("PARSING HIS; %s try to find : %c\n", line, CHAR_HIST);

@@ -88,6 +88,7 @@ token_t get_next_token(ast_ctx_t *ctx)
     size_t arg_len = 0;
     token_t token;
 
+    //printf("CTX->STR; %d\n", ctx->str[0]);
     while (*ctx->str != '\0' && isblank(*ctx->str))
         ctx->str++;
     if (match_known_token(ctx, &token))
