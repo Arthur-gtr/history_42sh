@@ -26,15 +26,15 @@
     
     typedef struct parsing_history_s {
         char *name;
-        char *(*funct)(char *, his_variable_t *);
+        char *(*funct)(char *, his_variable_t *, his_command_t *);
     } parsing_history_t;
 
     char *parse_history(char *line, size_t *buffer);
-    char *his_last_command(char *line, his_variable_t *his_variable);
-    char *his_last_same_command(char *line, his_variable_t *his_variable);
-    char *his_id_command(char *line, his_variable_t *his_variable);
-    char *his_last_word(char *line, his_variable_t *his_variable);
-    char *his_last_arg(char *line, his_variable_t *his_variable);
+    char *his_last_command(char *line, his_variable_t *his_variable, his_command_t *his_command);
+    char *his_last_same_command(char *line, his_variable_t *his_variable, his_command_t *his_command);
+    char *his_id_command(char *line, his_variable_t *his_variable, his_command_t *his_command);
+    char *his_last_word(char *line, his_variable_t *his_variable, his_command_t *his_command);
+    char *his_last_arg(char *line, his_variable_t *his_variable, his_command_t *his_command);
 #endif /* HISTORY_H */
 
 

@@ -78,7 +78,7 @@ char *replace_history(char *line)
     
     which_his_cmd(&his_variable, line);
     while(his_variable.type != -1){
-        line = tab_fnct[his_variable.type].funct(line, &his_variable);
+        line = tab_fnct[his_variable.type].funct(line, &his_variable, NULL);
         if (line == NULL)
             return NULL;
         which_his_cmd(&his_variable, line);
